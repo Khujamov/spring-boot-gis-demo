@@ -1,0 +1,16 @@
+spring:
+  flyway:
+    enabled: true
+
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url:        jdbc:postgresql://${DBHOST:localhost}:${DBPORT:5432}/${DBNAME:sb2spatial}
+    username:   ${DBUSER:postgres}
+    password:   ${DBPASS:postgres}
+
+  jpa:
+    properties:
+      hibernate:
+        dialect: org.hibernate.spatial.dialect.postgis.PostgisDialect
+        temp:
+          use_jdbc_metadata_defaults: false
