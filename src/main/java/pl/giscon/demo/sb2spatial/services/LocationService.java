@@ -22,7 +22,6 @@ public class LocationService {
 
     private static GeometryFactory geometryFactory = new GeometryFactory();
     private static WKTReader wktReader = new WKTReader(geometryFactory);
-//    private static GeometryJSON geometryJSON = new GeometryJSON();
 
     private final LocationRepository locationRepository;
 
@@ -39,13 +38,9 @@ public class LocationService {
     }
 
     public Location findById(Long id) {
-        Optional<Location> location = locationRepository.findById(id);
-
-        if (location.isPresent()) {
-            return location.get();
-        } else {
-            throw new NotFoundException("Location not found with ID: " + id);
-        }
+        return locationRepository.findById(id).orElseThrow(
+                () -> new NotFoundException("Location not found with ID: " + id)
+        );
     }
 
     public Location create(String name, String wkt) {
@@ -65,14 +60,5 @@ public class LocationService {
         locationRepository.deleteById(id);
         log.info("location deleted: {}", id);
     }
-
-
-//    private static Geometry fromGeojson(String geojson) throws IOException {
-//        try {
-//            return geometryJSON.read(new StringReader(geojson));
-//        } catch (IOException e) {
-//            throw new ApplicationException("Converting from GeoJSON to Geometry failure. GeoJSON:" + geojson, e);
-//        }
-//    }
 
 }
